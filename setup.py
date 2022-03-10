@@ -25,7 +25,7 @@ def banner():
 def requirements():
 	def csv_lib():
 		banner()
-		print(gr+'['+cy+'+'+gr+']'+cy+' this may take some time ...')
+		print(f'{gr}[{cy}+{gr}]{cy} this may take some time ...')
 		os.system("""
 			pip3 install cython numpy pandas
 			python3 -m pip install cython numpy pandas
@@ -52,16 +52,15 @@ def config_setup():
 	banner()
 	cpass = configparser.RawConfigParser()
 	cpass.add_section('cred')
-	xid = input(gr+"[+] enter api ID : "+re)
+	xid = input(f'{gr}[+] enter api ID : {re}')
 	cpass.set('cred', 'id', xid)
-	xhash = input(gr+"[+] enter hash ID : "+re)
+	xhash = input(f'{gr}[+] enter hash ID : {re}')
 	cpass.set('cred', 'hash', xhash)
-	xphone = input(gr+"[+] enter phone number : "+re)
+	xphone = input(f'{gr}[+] enter phone number : {re}')
 	cpass.set('cred', 'phone', xphone)
-	setup = open('config.data', 'w')
-	cpass.write(setup)
-	setup.close()
-	print(gr+"[+] setup complete !")
+	with open('config.data', 'w') as setup:
+		cpass.write(setup)
+	print(f'{gr}[+] setup complete !')
 
 def merge_csv():
 	import pandas as pd
@@ -69,40 +68,42 @@ def merge_csv():
 	banner()
 	file1 = pd.read_csv(sys.argv[2])
 	file2 = pd.read_csv(sys.argv[3])
-	print(gr+'['+cy+'+'+gr+']'+cy+' merging '+sys.argv[2]+' & '+sys.argv[3]+' ...')
-	print(gr+'['+cy+'+'+gr+']'+cy+' big files can take some time ... ')
+	print(f'{gr}[{cy}+{gr}]{cy} merging {sys.argv[2]} & {sys.argv[3]} ...')
+	print(f'{gr}[{cy}+{gr}]{cy} big files can take some time ... ')
 	merge = file1.merge(file2, on='username')
 	merge.to_csv("output.csv", index=False)
-	print(gr+'['+cy+'+'+gr+']'+cy+' saved file as "output.csv"\n')
+	print(f'{gr}[{cy}+{gr}]{cy}' + ' saved file as "output.csv"\n')
 
 def update_tool():
 	import requests as r
 	banner()
 	source = r.get("https://raw.githubusercontent.com/th3unkn0n/TeleGram-Scraper/master/.image/.version")
 	if source.text == '3':
-		print(gr+'['+cy+'+'+gr+']'+cy+' alredy latest version')
+		print(f'{gr}[{cy}+{gr}]{cy} alredy latest version')
 	else:
-		print(gr+'['+cy+'+'+gr+']'+cy+' removing old files ...')
-		os.system('rm *.py');time.sleep(3)
-		print(gr+'['+cy+'+'+gr+']'+cy+' getting latest files ...')
+		print(f'{gr}[{cy}+{gr}]{cy} removing old files ...')
+		os.system('rm *.py')
+		time.sleep(3)
+		print(f'{gr}[{cy}+{gr}]{cy} getting latest files ...')
 		os.system("""
 			curl -s -O https://raw.githubusercontent.com/th3unkn0n/TeleGram-Scraper/master/add2group.py
 			curl -s -O https://raw.githubusercontent.com/th3unkn0n/TeleGram-Scraper/master/scraper.py
 			curl -s -O https://raw.githubusercontent.com/th3unkn0n/TeleGram-Scraper/master/setup.py
 			curl -s -O https://raw.githubusercontent.com/th3unkn0n/TeleGram-Scraper/master/smsbot.py
 			chmod 777 *.py
-			""");time.sleep(3)
+			""")
+		time.sleep(3)
 		print(gr+'\n['+cy+'+'+gr+']'+cy+' update compled.\n')
 
 try:
 	if any ([sys.argv[1] == '--config', sys.argv[1] == '-c']):
-		print(gr+'['+cy+'+'+gr+']'+cy+' selected module : '+re+sys.argv[1])
+		print(f'{gr}[{cy}+{gr}]{cy} selected module : {re}{sys.argv[1]}')
 		config_setup()
 	elif any ([sys.argv[1] == '--merge', sys.argv[1] == '-m']):
-		print(gr+'['+cy+'+'+gr+']'+cy+' selected module : '+re+sys.argv[1])
+		print(f'{gr}[{cy}+{gr}]{cy} selected module : {re}{sys.argv[1]}')
 		merge_csv()
 	elif any ([sys.argv[1] == '--update', sys.argv[1] == '-u']):
-		print(gr+'['+cy+'+'+gr+']'+cy+' selected module : '+re+sys.argv[1])
+		print(f'{gr}[{cy}+{gr}]{cy} selected module : {re}{sys.argv[1]}')
 		update_tool()
 	elif any ([sys.argv[1] == '--install', sys.argv[1] == '-i']):
 		requirements()
@@ -118,10 +119,12 @@ try:
 			""")
 	else:
 		print('\n'+gr+'['+re+'!'+gr+']'+cy+' unknown argument : '+ sys.argv[1])
-		print(gr+'['+re+'!'+gr+']'+cy+' for help use : ')
-		print(gr+'$ python3 setup.py -h'+'\n')
+		print(f'{gr}[{re}!{gr}]{cy} for help use : ')
+		print(f'{gr}$ python3 setup.py -h' + '\n')
 except IndexError:
 	print('\n'+gr+'['+re+'!'+gr+']'+cy+' no argument given : '+ sys.argv[1])
-	print(gr+'['+re+'!'+gr+']'+cy+' for help use : ')
-	print(gr+'['+re+'!'+gr+']'+cy+' https://github.com/th3unkn0n/TeleGram-Scraper#-how-to-install-and-use')
-	print(gr+'$ python3 setup.py -h'+'\n')
+	print(f'{gr}[{re}!{gr}]{cy} for help use : ')
+	print(
+	    f'{gr}[{re}!{gr}]{cy}' +
+	    ' https://github.com/th3unkn0n/TeleGram-Scraper#-how-to-install-and-use')
+	print(f'{gr}$ python3 setup.py -h' + '\n')
